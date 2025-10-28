@@ -1,7 +1,8 @@
 """
-This module defines the `generator_system_prompt` helper, which takes the initial
-(system) message of a chat and injects the retrieved content into the `{{RETRIEVAL}}`
-placeholder, returning a new one-message Chat to be fed to a generator LLM.
+This module defines the `generator_system_prompt` helper, which takes the
+initial (system) message of a chat and injects the retrieved content into the
+`{{RETRIEVAL}}` placeholder, returning a new one-message Chat to be fed to a
+generator LLM.
 """
 
 from graphygie.llm import Chat, Message
@@ -13,8 +14,10 @@ def generator_system_prompt(chat: Chat, content: str) -> Chat:
     and replacing the `{{RETRIEVAL}}` placeholder with the provided content.
 
     Parameters:
-    - chat (Chat): The chat history; the first message is expected to be the system prompt.
-    - content (str): The retrieved text that will replace `{{RETRIEVAL}}` in the system message.
+    - chat (Chat): The chat history; the first message is expected to be the
+        system prompt.
+    - content (str): The retrieved text that will replace `{{RETRIEVAL}}` in
+        the system message.
       If empty, the placeholder is replaced with "<empty>".
 
     Returns:
@@ -37,4 +40,3 @@ def generator_system_prompt(chat: Chat, content: str) -> Chat:
             content=message.content.replace("{{RETRIEVAL}}", content),
         )
     ]
-

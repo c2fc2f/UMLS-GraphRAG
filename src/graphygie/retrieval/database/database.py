@@ -22,4 +22,3 @@ class Database(ABC):
         - str: The result of the query.
         """
         ...
-

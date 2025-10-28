@@ -11,7 +11,8 @@ class Message:
     Represents a single message in a chat, containing a role and content.
 
     Attributes:
-    - role (str): The role of the message sender (e.g., "user", "assistant", "system").
+    - role (str): The role of the message sender (e.g., "user", "assistant",
+        "system").
     - content (str): The textual content of the message.
     """
 
@@ -23,8 +24,8 @@ class Message:
         - role (str): The role of the sender.
         - content (str): The message content.
         """
-        self.role: str = role
-        self.content: str = content
+        self._role: str = role
+        self._content: str = content
 
     @property
     def role(self) -> str:
@@ -46,7 +47,7 @@ class Message:
         """Sets the content of the message."""
         self._content = content
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict[str, str]:
         """
         Converts the message to a dictionary format.
 

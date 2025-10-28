@@ -12,6 +12,9 @@ Your task is to generate a **syntactically and semantically correct Cypher query
 * The Cypher query must be **executable** without error, assuming the schema is accurate.
 * Only use node labels, relationship types, and properties present in the provided schema.
 * Incorporate information from the user’s attention to disambiguate and optimize the query.
+*  **Use `CONTAINS` for Names:** To prevent "no results" errors, **always** use the `CONTAINS` operator for matching `name` properties. Users may provide partial or non-canonical names.
+    * **Good:** `WHERE c.name CONTAINS "Aspirin"`
+    * **Bad:** `WHERE c.name = "Aspirin"`
 * The result must be a **subgraph**, using `RETURN` with paths or full nodes and relationships.
 
 ### Output format:
@@ -34,18 +37,18 @@ Node types :
 ```
 
 Relationship types :
-```
-- CHD(AUI|CUI -> AUI|CUI)
-- PAR(AUI|CUI -> AUI|CUI)
-- SY(AUI -> AUI)
-- RB(AUI -> AUI)
-- RQ(AUI -> AUI)
-- RO(AUI -> AUI)
-- RN(AUI -> AUI)
-- STY(CUI -> SemanticType)
-- SY(CUI -> CUI)
-- RO(CUI -> CUI)
-```
+* `(:CUI)-[:PAR]->(:CUI)` (Parent)
+* `(:CUI)-[:CHD]->(:CUI)` (Child)
+* `(:CUI)-[:SY]->(:CUI)` (Synonym)
+* `(:CUI)-[:RO]->(:CUI)` (Other related)
+* `(:AUI)-[:PAR]->(:AUI)`
+* `(:AUI)-[:CHD]->(:AUI)`
+* `(:AUI)-[:SY]->(:AUI)`
+* `(:AUI)-[:RB]->(:AUI)` (Broader than)
+* `(:AUI)-[:RN]->(:AUI)` (Narrower than)
+* `(:AUI)-[:RQ]->(:AUI)` (Related but unspecified)
+* `(:AUI)-[:RO]->(:AUI)`
+* `(:CUI)-[:STY]->(:SemanticType)` (Has Semantic Type)
 
 This knowledge graph is based on the Unified Medical Language System (UMLS). It consists of the following main node types and relationships:
 

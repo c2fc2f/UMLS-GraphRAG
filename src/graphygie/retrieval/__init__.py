@@ -1,5 +1,6 @@
 """
-This module exposes the public interface for the graph-based retriever component.
+This module exposes the public interface for the graph-based retriever
+component.
 """
 
 from .graph import Graph

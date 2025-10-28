@@ -1,0 +1,29 @@
+[project]
+name = "graphygie"
+version = "0.1.0"
+description = "A Python library (Graphygie) to simplify building GraphRAG pipelines"
+readme = "README.md"
+authors = [
+    { name = "c2fc2f", email = "contact@c2fc2f.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "neo4j>=6.0.2",
+    "ollama>=0.6.0",
+    "openai>=2.6.1",
+]
+
+[project.optional-dependencies]
+examples = [
+    "python-dotenv>=1.2.1",
+    "regex>=2025.10.23",
+]
+
+[project.scripts]
+graphygie-basic = "examples.basic.main:main"
+
+[build-system]
+requires = [
+  "uv_build>=0.8.23,<0.9.0"
+]
+build-backend = "uv_build"

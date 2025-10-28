@@ -2,8 +2,8 @@
 Main entry point for the Graphygie pipeline.
 
 This script initializes the retrieval and generation components of the system,
-connecting a Neo4j database with language models (Ollama) to handle user queries.
-The process follows these steps:
+connecting a Neo4j database with language models (Ollama) to handle user
+queries. The process follows these steps:
 
 1. Load environment variables for database and LLM configuration.
 2. Initialize the Neo4j database connection.
@@ -18,12 +18,15 @@ from graphygie.retrieval import Graph
 from graphygie.retrieval.database import Neo4j, Database
 from graphygie.llm import LLM, Ollama, Message
 from graphygie.generation import BasicGenerator
-from util import (
+import logging
+from .util import (
     read_to_string,
     unwrap,
     strip_code_fences,
+    strip_after_double_newline,
     user_prompt,
     generator_system_prompt,
+    compose,
 )
 
 from dotenv import load_dotenv
@@ -32,8 +35,14 @@ import os
 
 def main() -> None:
     load_dotenv()
+    logging.basicConfig(
+        level=logging.INFO, format="{levelname}:{name}:\n{message}", style="{"
+    )
 
-    # Initialize the Neo4j database with credentials and connection URI from environment variables
+    current_dir: str = os.path.dirname(os.path.abspath(__file__))
+
+    # Initialize the Neo4j database with credentials and connection URI from
+    # environment variables
     database: Database = Neo4j(
         uri=unwrap(os.getenv("NEO4J_URI")),
         username=unwrap(os.getenv("NEO4J_USERNAME")),
@@ -52,10 +61,12 @@ def main() -> None:
         chat=[
             Message(
                 role="system",
-                content=read_to_string("./resources/prompt/retrieval_system.md"),
+                content=read_to_string(
+                    os.path.join(current_dir, "resources/prompt/retrieval_system.md")
+                ),
             )
         ],
-        cleaner=strip_code_fences,
+        cleaner=compose(strip_code_fences, strip_after_double_newline),
     )
 
     # Create a graph-based retriever using the LLM and database
@@ -70,7 +81,7 @@ def main() -> None:
     )
 
     # Load the user prompt template from a file
-    base = read_to_string("./resources/prompt/user.md")
+    base: str = read_to_string(os.path.join(current_dir, "resources/prompt/user.md"))
 
     # RAG Orchestrator
     # - Provides information retrieval
@@ -83,14 +94,16 @@ def main() -> None:
         chat=[
             Message(
                 role="system",
-                content=read_to_string("./resources/prompt/generator_system.md"),
+                content=read_to_string(
+                    os.path.join(current_dir, "resources/prompt/generator_system.md")
+                ),
             )
         ],
         maker=generator_system_prompt,
     )
 
     # Launch of the RAG pipeline
-    result = generator.chat(
+    result: str = generator.chat(
         chat=[
             Message(
                 role="user",

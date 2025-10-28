@@ -21,7 +21,7 @@ Graph-RAG is a method of retrieving information from a **knowledge graph** to au
 * Uses the UMLS Neo4j graph dump provided by the original GraphRAG publication.
 * Provides a `setup.sh` script to download, import, and migrate the Neo4j database.
 * Launches a local Neo4j instance using Docker Compose.
-* Modular and type-annotated Python codebase (Python 3.13+).
+* Modular and type-annotated Python codebase.
 * Interface-based architecture for flexibility and clarity.
 
 ---
@@ -30,20 +30,42 @@ Graph-RAG is a method of retrieving information from a **knowledge graph** to au
 
 ```
 .
-├── data/                     # Neo4j database files (after setup)
-├── docker-compose.yml        # Docker service for Neo4j
-├── flake.nix / flake.lock    # Nix environment definitions
-├── logs/                     # Neo4j logs
-├── setup.sh                  # Script to download, load and migrate Neo4j dump
-├── src/                      # Main source code (GraphRAG implementation)
-│   ├── graphygie/            # Core Graphygie library
-│   │   ├── generation/       # Response generation (BasicGenerator uses retriever + LLM)
-│   │   ├── llm/              # LLM integrations (OpenAI, Ollama, etc.)
-│   │   └── retrieval/        # Graph and database retrieval logic
-│   ├── main.py               # Entry point
-│   ├── resources/prompt/     # Prompt templates
-│   └── util/                 # Utility functions
-└── README.md                 # You're here!
+├── docker-compose.yml                      # Docker service configuration for Neo4j
+├── flake.nix / flake.lock                  # Nix environment definitions
+├── pyproject.toml                          # Python project configuration and dependencies
+├── setup.sh                                # Script to download, load and migrate Neo4j dump
+├── uv.lock                                 # UV package manager lock file
+├── src/
+│   ├── examples/                           # Example implementations
+│   │   └── basic/                          # Basic GraphRAG example
+│   │       ├── main.py                     # Example entry point
+│   │       ├── resources/
+│   │       │   └── prompt/                 # Prompt templates
+│   │       │       ├── generator_system.md
+│   │       │       ├── retrieval_system.md
+│   │       │       └── user.md
+│   │       └── util/                       # Example utility functions
+│   │           ├── cleaner.py
+│   │           ├── compose.py
+│   │           ├── generator_system_prompt.py
+│   │           ├── read_to_string.py
+│   │           ├── unwrap.py
+│   │           └── user_prompt.py
+│   └── graphygie/                          # Core Graphygie library
+│       ├── generation/                     # Response generation
+│       │   └── basic_generator.py          # Generator using retriever + LLM
+│       ├── llm/                            # LLM integrations
+│       │   ├── chat.py                     # Chat interface
+│       │   ├── llm.py                      # Base LLM class
+│       │   ├── ollama.py                   # Ollama integration
+│       │   └── openai.py                   # OpenAI integration
+│       └── retrieval/                      # Graph and database retrieval logic
+│           ├── database/
+│           │   ├── database.py             # Database interface
+│           │   └── neo4j.py                # Neo4j implementation
+│           └── graph.py                    # Graph retrieval logic
+├── LICENSE
+└── README.md                               # You're here!
 ```
 
 ---
@@ -85,18 +107,15 @@ This will start a local Neo4j server accessible at `bolt://localhost:7687` with 
 ### 4. Install Python Dependencies
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+uv sync --extra examples
 ```
 
-> ⚠️ Requires Python 3.13+ (due to `__pycache__` hints)
+> This will create a virtual environment and install all dependencies from `pyproject.toml`
 
 ### 5. Run the Application
 
 ```bash
-cd src
-python main.py
+uv run graphygie-basic
 ```
 
 ---

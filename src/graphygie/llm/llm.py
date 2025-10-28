@@ -19,7 +19,8 @@ class LLM(ABC):
         and executing it on the graph database.
 
         Parameters:
-        - chat (Chat, optional): The list of chat messages used as input. Defaults to an empty list.
+        - chat (Chat, optional): The list of chat messages used as input.
+            Defaults to an empty list.
 
         Returns:
         - str: The result of the query executed on the database.

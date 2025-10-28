@@ -1,19 +1,21 @@
 """
-This module defines the Graph retriever class, which combines a language model (LLM)
-and a graph database to answer chat-based queries.
+This module defines the Graph retriever class, which combines a language model
+(LLM) and a graph database to answer chat-based queries.
 
-The LLM generates a query from the chat history, which is then executed on the database.
+The LLM generates a query from the chat history, which is then executed on the
+database.
 """
 
 from graphygie.llm import LLM
 from graphygie.llm.chat import Chat
 from .database import Database
+import logging
 
 
 class Graph(LLM):
     """
-    A graph-based retriever that uses an LLM to generate a query from a chat history,
-    then executes that query against a graph database.
+    A graph-based retriever that uses an LLM to generate a query from a chat
+    history, then executes that query against a graph database.
 
     Attributes:
     - _llm (LLM): The language model used to generate queries.
@@ -32,9 +34,11 @@ class Graph(LLM):
         self._database: Database = database
 
     def chat(self, chat: Chat = list()) -> str:
+        logger: logging.Logger = logging.getLogger(__name__)
+
         query: str = self._llm.chat(chat)
 
-        print(f"[DEBUG] Request:\n{query}")
+        logger.info(query)
 
         result: str = self._database.query(query)
 
