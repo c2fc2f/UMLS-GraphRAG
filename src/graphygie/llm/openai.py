@@ -27,6 +27,7 @@ class OpenAI(LLM):
         chat: Chat = list(),
         host: Optional[str] = None,
         cleaner: Optional[Callable[[str], str]] = None,
+        **kwargs,
     ) -> None:
         """
         Initializes the OpenAI LLM client.
@@ -43,7 +44,9 @@ class OpenAI(LLM):
             the model's response.
         """
 
-        self._client: openai.OpenAI = openai.OpenAI(base_url=host, api_key=api_key)
+        self._client: openai.OpenAI = openai.OpenAI(
+            base_url=host, api_key=api_key, **kwargs
+        )
         self._model: str = model
         self._chat: Chat = chat
         self._cleaner: Optional[Callable[[str], str]] = cleaner

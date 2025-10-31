@@ -20,7 +20,8 @@ examples = [
 ]
 
 [project.scripts]
-graphygie-basic = "examples.basic.main:main"
+graphygie-ollama = "examples.ollama.main:main"
+graphygie-openrouter = "examples.openrouter.main:main"
 
 [build-system]
 requires = [
