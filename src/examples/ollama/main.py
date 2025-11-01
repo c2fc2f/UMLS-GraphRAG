@@ -19,7 +19,7 @@ from graphygie.retrieval.database import Neo4j, Database
 from graphygie.llm import LLM, Ollama, Message
 from graphygie.generation import BasicGenerator
 import logging
-from .util import (
+from util import (
     read_to_string,
     unwrap,
     strip_code_fences,

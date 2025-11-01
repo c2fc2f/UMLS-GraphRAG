@@ -5,13 +5,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from threading import Lock
 from dotenv import load_dotenv
 from tqdm import tqdm
+from util import unwrap
 import time
-
-
-def unwrap(value: str | None) -> str:
-    if value is None:
-        raise ValueError("called `unwrap()` on a `None` value")
-    return value
 
 
 load_dotenv()

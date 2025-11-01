@@ -8,7 +8,7 @@ authors = [
 ]
 requires-python = ">=3.12"
 dependencies = [
-    "neo4j>=6.0.2",
+    "neo4j>=5.28.2",
     "ollama>=0.6.0",
     "openai>=2.6.1",
 ]
@@ -17,11 +17,18 @@ dependencies = [
 examples = [
     "python-dotenv>=1.2.1",
     "regex>=2025.10.23",
+    "langchain-ollama>=1.0.0",
+    "neo4j-graphrag>=1.10.1",
+    "tqdm>=4.67.1",
 ]
 
 [project.scripts]
 graphygie-ollama = "examples.ollama.main:main"
 graphygie-openrouter = "examples.openrouter.main:main"
+
+no-graphygie-neo4j = "examples.no_graphygie_neo4j.main:main"
+no-graphygie-neo4j-embedding = "examples.no_graphygie_neo4j.embedding:main"
+
 
 [build-system]
 requires = [

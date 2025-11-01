@@ -4,15 +4,10 @@ from neo4j_graphrag.llm import OpenAILLM
 from neo4j_graphrag.generation import GraphRAG
 from neo4j_graphrag.embeddings import OllamaEmbeddings
 from dotenv import load_dotenv
+from util import unwrap
 
 import logging
 import os
-
-
-def unwrap(value: str | None) -> str:
-    if value is None:
-        raise ValueError("called `unwrap()` on a `None` value")
-    return value
 
 
 def main() -> None:

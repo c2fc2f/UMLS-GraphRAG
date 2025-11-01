@@ -19,7 +19,7 @@ from graphygie.retrieval.database import Neo4j, Database
 from graphygie.llm import LLM, Ollama, OpenAI, Message
 from graphygie.generation import BasicGenerator
 import logging
-from .util import (
+from util import (
     read_to_string,
     unwrap,
     strip_code_fences,
@@ -68,7 +68,7 @@ def main() -> None:
             )
         ],
         cleaner=compose(strip_code_fences, strip_after_double_newline),
-        timeout=None
+        timeout=None,
     )
 
     # Create a graph-based retriever using the LLM and database
