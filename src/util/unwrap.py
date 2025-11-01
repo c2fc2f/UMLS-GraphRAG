@@ -1,4 +1,9 @@
-def unwrap(value: str | None) -> str:
+from typing import TypeVar
+
+T = TypeVar("T")
+
+
+def unwrap(value: T | None) -> T:
     """
     Returns the given string if it is not None, otherwise raises a ValueError.
 

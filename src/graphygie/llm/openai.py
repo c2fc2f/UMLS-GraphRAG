@@ -4,7 +4,7 @@ interface, which uses the OpenAI API to generate responses from a chat
 history.
 """
 
-from typing import Optional, Callable, cast
+from typing import Any, Optional, Callable, cast
 from openai.types.chat import ChatCompletion, ChatCompletionMessageParam
 import openai
 from .llm import LLM
@@ -27,6 +27,7 @@ class OpenAI(LLM):
         chat: Chat = list(),
         host: Optional[str] = None,
         cleaner: Optional[Callable[[str], str]] = None,
+        model_params: Optional[dict[str, Any]] = None,
         **kwargs,
     ) -> None:
         """
@@ -50,6 +51,7 @@ class OpenAI(LLM):
         self._model: str = model
         self._chat: Chat = chat
         self._cleaner: Optional[Callable[[str], str]] = cleaner
+        self._model_params: Optional[dict[str, Any]] = model_params
 
     def chat(self, chat: Chat = list()) -> str:
         chat = self._chat + chat
@@ -58,6 +60,7 @@ class OpenAI(LLM):
             messages=[
                 cast(ChatCompletionMessageParam, message.to_dict()) for message in chat
             ],
+            **(self._model_params or {}),
         )
         if response.choices[0].message.content is None:
             return ""

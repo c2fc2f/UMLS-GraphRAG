@@ -2,12 +2,13 @@
 Main entry point for the Graphygie pipeline.
 
 This script initializes the retrieval and generation components of the system,
-connecting a Neo4j database with language models (Ollama) to handle user
-queries. The process follows these steps:
+connecting a Neo4j database with language models to handle user queries. The
+process follows these steps:
 
 1. Load environment variables for database and LLM configuration.
 2. Initialize the Neo4j database connection.
-3. Initialize an Ollama-based LLM to act as a retriever (query generation).
+3. Initialize an OpenRouter-based LLM to act as a retriever (query
+    generation).
 4. Wrap the retriever in a Graph-based retriever that queries Neo4j.
 5. Initialize another Ollama-based LLM to act as a generator (final response).
 6. Combine the retriever and generator in a BasicGenerator pipeline.
