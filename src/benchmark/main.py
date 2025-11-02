@@ -1,3 +1,4 @@
+import time
 from typing import Any, Tuple, cast
 from dotenv import load_dotenv
 from benchmark.generation.basic_generator import BasicGeneratorExtra
@@ -156,12 +157,18 @@ def main() -> None:
                 "w",
                 encoding="utf-8",
             ) as f:
-                data = {
-                    "response": cast(
-                        str,
-                        benchmark(base, n, val["question"], val["options"]),
-                    )
-                }
+                while True:
+                    try:
+                        data = {
+                            "response": cast(
+                                str,
+                                benchmark(base, n, val["question"], val["options"]),
+                            )
+                        }
+                        break  
+                    except Exception:
+                        print("Retry")
+                        time.sleep(30)
                 json.dump(data, f, indent=4, ensure_ascii=False)
 
             with open(
@@ -169,11 +176,17 @@ def main() -> None:
                 "w",
                 encoding="utf-8",
             ) as f:
-                (response, data) = cast(
-                    Tuple[str, dict[str, int | str]],
-                    benchmark(base, g, val["question"], val["options"]),
-                )
-                data["response"] = response
+                while True:
+                    try:
+                        (response, data) = cast(
+                            Tuple[str, dict[str, int | str]],
+                            benchmark(base, g, val["question"], val["options"]),
+                        )
+                        data["response"] = response
+                        break  
+                    except Exception:
+                        print("Retry")
+                        time.sleep(30)
                 json.dump(data, f, indent=4, ensure_ascii=False)
 
 
