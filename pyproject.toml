@@ -35,6 +35,8 @@ no-graphygie-neo4j = "examples.no_graphygie_neo4j.main:main"
 no-graphygie-neo4j-embedding = "examples.no_graphygie_neo4j.embedding:main"
 
 benchmark = "benchmark.main:main"
+benchmark-stats = "benchmark.stats:main"
+
 
 
 [build-system]
