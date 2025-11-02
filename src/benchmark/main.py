@@ -166,7 +166,8 @@ def main() -> None:
                             )
                         }
                         break  
-                    except Exception:
+                    except Exception as e:
+                        print(str(e))
                         print("Retry")
                         time.sleep(30)
                 json.dump(data, f, indent=4, ensure_ascii=False)
@@ -184,7 +185,8 @@ def main() -> None:
                         )
                         data["response"] = response
                         break  
-                    except Exception:
+                    except Exception as e:
+                        print(str(e))
                         print("Retry")
                         time.sleep(30)
                 json.dump(data, f, indent=4, ensure_ascii=False)
