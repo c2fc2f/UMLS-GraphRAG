@@ -1,4 +1,4 @@
-# UMLS-GraphRAG
+# Med-KAG
 
 This project aims to create **Graphygie**, a Python library designed to simplify the creation of **GraphRAG** pipelines.  
 It was developed as part of the [KGConversationalAI project](https://github.com/Gabriel382/KGConversationalAI), which focuses on assisting doctors by creating a **3D assistant** capable of answering their medical questions.
